@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visualizer</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+    </head>
+    <body>
+        <nav class="navbar-virtical">
+            <div class="nav-header">
+                <a href="#"><h1>Visualizer</h1></a>
+            </div>
+            <div class="nav-row">
+                <a class="nav-button" href="#">
+                    <h3>Sorting</h3>
+                    <h3>Algorithms</h3>
+                </a>
+            </div>
+            <div class="nav-row">
+                <a class="nav-button" href="#">
+                    <h3>Pathfinder</h3>
+                    <h3>Algorithms</h3>
+                </a>
+            </div>
+        </nav>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </body>
+</html>

@@ -1,40 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Visualizer</title>
-        <link rel="stylesheet" href="../styles.css">
-    </head>
-    <body>
-        <nav class="navbar-virtical">
-            <div class="nav-header">
-                <a href="#"><h1>Visualizer</h1></a>
-            </div>
-            <div class="nav-row">
-                <a class="nav-button" href="#">
-                    <h3>Sorting</h3>
-                    <h3>Algorithms</h3>
-                </a>
-            </div>
-            <div class="nav-row">
-                <a class="nav-button" href="#">
-                    <h3>Pathfinder</h3>
-                    <h3>Algorithms</h3>
-                </a>
-            </div>
-        </nav>
-        <main>
-            <div class="main-button-wrapper">
-                <h2>Sorting Algorithms</h2>
-                <div class="main-button">
-                    <a href="#"><img src="../images/SortButton.png" height="100%" width="100%"></a>
-                </div>
-            </div>
-            <div class="main-button-wrapper">
-                <h2>Pathfinding Algorithms</h2>
-                <div class="main-button">
-                    <a href="#"><img src="../images/PathButton.png"height="100%" width="100%"></a>
-                </div>
-            </div>
-        </main>
-    </body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<div class="main-button-wrapper">
+    <h2>Sorting Algorithms</h2>
+    <div class="main-button">
+        <a href="#"><img src="{{ url_for('static',filename='images/SortButton.png') }}" height="100%" width="100%"></a>
+    </div>
+</div>
+<div class="main-button-wrapper">
+    <h2>Pathfinding Algorithms</h2>
+    <div class="main-button">
+        <a href="#"><img src="{{ url_for('static',filename='images/PathButton.png') }}"height="100%" width="100%"></a>
+    </div>
+</div>
+{% endblock %}
+    
