@@ -3,27 +3,77 @@
     <head>
         <title>Visualizer</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <script src="{{ url_for('static',filename='script/p5.min.js') }}"></script>
     </head>
     <body>
         <nav class="navbar-virtical">
             <div class="nav-header">
-                <a href="#"><h1>Visualizer</h1></a>
+                <a href="/"><h1 style="color: inherit;">Visualizer</h1></a>
             </div>
-            <div class="nav-row">
-                <a class="nav-button" href="#">
-                    <h3>Sorting</h3>
-                    <h3>Algorithms</h3>
-                </a>
-            </div>
-            <div class="nav-row">
-                <a class="nav-button" href="#">
-                    <h3>Pathfinder</h3>
-                    <h3>Algorithms</h3>
-                </a>
-            </div>
+            {% if page == 'index' %}
+                <div class="nav-row">
+                    <a class="nav-button" href="/sorting">
+                        <h3>Sorting</h3>
+                        <h3>Algorithms</h3>
+                    </a>
+                </div>
+                <div class="nav-row">
+                    <a class="nav-button" href="/pathfinding">
+                        <h3>Pathfinder</h3>
+                        <h3>Algorithms</h3>
+                    </a>
+                </div>
+            {% elif page == 'sorting' %}
+                <div class="nav-row">
+                    <form class="nav-form">
+                        <div class="form-row">
+                            <p>Algorithm:</p>
+                            <select id="sorting-algorithm" class="form-control">
+                                <option value="quick">Quick Sort</option>
+                                <option value="binary">Binary Sort</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <p>Length:</p>
+                            <input type="number" min="10" max="100" class="form-control">
+                        </div>
+                        <div class="form-row">
+                            <button class="btn" type="submit">Start</button>
+                        </div>
+                    </form>
+                </div>
+            {% elif page == 'pathfinding' %}
+                <div class="nav-row">
+                    <form class="nav-form">
+                        <div class="form-row">
+                            <p>Algorithm:</p>
+                            <select id="pathfinding-algorithm" class="form-control">
+                                <option value="a-star">A*</option>
+                                <option value="depth-first">Depth First</option>
+                                <option value="breath-first">Breath First</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <p>Options:</p>
+                            <select id="pathfinding-algorithm" class="form-control">
+                                <option value="a-star">Start ></option>
+                                <option value="depth-first">End #</option>
+                                <option value="breath-first">Wall |</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <button class="btn" type="submit">Start</button>
+                        </div>
+                        <div class="form-row">
+                            <button class="btn" type="button">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
         </nav>
         <main>
             {% block content %}{% endblock %}
+            <script src="{{ url_for('static',filename='script/sketch.js') }}"></script>
         </main>
     </body>
 </html>

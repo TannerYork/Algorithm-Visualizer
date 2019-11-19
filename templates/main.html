@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if page == 'index' %}
+        <div class="main-button-wrapper">
+            <h2>Sorting Algorithms</h2>
+            <div class="main-button">
+                <a href="/sorting"><img src="{{ url_for('static',filename='images/SortButton.png') }}" height="100%" width="100%"></a>
+            </div>
+        </div>
+        <div class="main-button-wrapper">
+            <h2>Pathfinding Algorithms</h2>
+            <div class="main-button">
+                <a href="/pathfinding"><img src="{{ url_for('static',filename='images/PathButton.png') }}"height="100%" width="100%"></a>
+            </div>
+        </div>
+    {% elif page == 'sorting' %}
+        <div id="sortingContainer" class="p5-container"></div>
+    {% elif page == 'pathfinding' %}
+        <div id="pathfinderContainer" class="p5-container"></div>
+    {% endif %}
+{% endblock %}
+    
