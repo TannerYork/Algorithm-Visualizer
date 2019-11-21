@@ -15,6 +15,7 @@
         </div>
     {% elif page == 'sorting' %}
         <div id="sortingContainer" class="p5-container"></div>
+        <script type="text/javascript" src="{{ url_for('static',filename='script/sorting-sketch.js') }}"></script>
     {% elif page == 'pathfinding' %}
         <div id="pathfinderContainer" class="p5-container"></div>
     {% endif %}

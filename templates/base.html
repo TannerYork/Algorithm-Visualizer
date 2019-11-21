@@ -28,14 +28,13 @@
                     <form class="nav-form">
                         <div class="form-row">
                             <p>Algorithm:</p>
-                            <select id="sorting-algorithm" class="form-control">
-                                <option value="quick">Quick Sort</option>
-                                <option value="binary">Binary Sort</option>
+                            <select id="sorting-algorithm" class="form-control" required>
+                                <option value="bubble" selected>Bubble Sort</option>
                             </select>
                         </div>
                         <div class="form-row">
                             <p>Length:</p>
-                            <input type="number" min="10" max="100" class="form-control">
+                            <input id="arrayLength" type="number" min="10" max="100" class="form-control" placeholder="DOES NOT WORK">
                         </div>
                         <div class="form-row">
                             <button class="btn" type="submit">Start</button>
