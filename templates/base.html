@@ -25,7 +25,7 @@
                 </div>
             {% elif page == 'sorting' %}
                 <div class="nav-row">
-                    <form class="nav-form">
+                    <form id="sorting-form" class="nav-form">
                         <div class="form-row">
                             <p>Algorithm:</p>
                             <select id="sorting-algorithm" class="form-control" required>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-row">
                             <p>Length:</p>
-                            <input id="arrayLength" type="number" min="10" max="100" class="form-control" placeholder="DOES NOT WORK">
+                            <input id="sorting-length" type="number" class="form-control" value=10>
                         </div>
                         <div class="form-row">
                             <button class="btn" type="submit">Start</button>
@@ -72,7 +72,6 @@
         </nav>
         <main>
             {% block content %}{% endblock %}
-            <script src="{{ url_for('static',filename='script/sketch.js') }}"></script>
         </main>
     </body>
 </html>
