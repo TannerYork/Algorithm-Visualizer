@@ -6,11 +6,9 @@ const sortingLength = document.getElementById('sorting-length');
 
 function setup() {
     canvas = createCanvas(winWidth, winHeight);
-    arrayLength = 10;
-    algorithm = 'bubble'
-    shouldDraw = false
-    visualArray = null
-    sorting = null
+    shouldDraw = false;
+    visualArray = new VisualArray(sortingLength.value);
+    sorting = null;
 
     canvas.parent('sortingContainer');
     frameRate(100);
@@ -30,9 +28,10 @@ function draw() {
         visualArray.draw();
         visualArray.update();
         if (algorithm == 'bubble') {
-            sorting.bubbleSort()
+            sorting.bubbleSort();
         }
     }
+    visualArray.draw();
 }
 
 class Bar {

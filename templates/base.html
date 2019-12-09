@@ -3,7 +3,6 @@
     <head>
         <title>Visualizer</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
-        <script src="{{ url_for('static',filename='script/p5.min.js') }}"></script>
     </head>
     <body>
         <nav class="navbar-virtical">
@@ -34,7 +33,7 @@
                         </div>
                         <div class="form-row">
                             <p>Length:</p>
-                            <input id="sorting-length" type="number" class="form-control" value=10>
+                            <input id="sorting-length" type="number" class="form-control" value=100>
                         </div>
                         <div class="form-row">
                             <button class="btn" type="submit">Start</button>
@@ -43,10 +42,10 @@
                 </div>
             {% elif page == 'pathfinding' %}
                 <div class="nav-row">
-                    <form class="nav-form">
+                    <form id="pathfinder-form" class="nav-form">
                         <div class="form-row">
                             <p>Algorithm:</p>
-                            <select id="pathfinding-algorithm" class="form-control">
+                            <select id="pathfinder-algorithm" class="form-control">
                                 <option value="a-star">A*</option>
                                 <option value="depth-first">Depth First</option>
                                 <option value="breath-first">Breath First</option>
@@ -54,10 +53,10 @@
                         </div>
                         <div class="form-row">
                             <p>Options:</p>
-                            <select id="pathfinding-algorithm" class="form-control">
-                                <option value="a-star">Start ></option>
-                                <option value="depth-first">End #</option>
-                                <option value="breath-first">Wall |</option>
+                            <select id="pathfinder-options" class="form-control">
+                                <option value="start">Start ></option>
+                                <option value="endblock">End #</option>
+                                <option value="wall">Wall |</option>
                             </select>
                         </div>
                         <div class="form-row">
