@@ -1,6 +1,7 @@
 # Visual Algorithms
 
-A web app for informing users about how algorythms work through an interactive experience.
+A web app for informing users about how algorythms work through an interactive experience. <br>
+Use the app [here](https://visual-algorithms.herokuapp.com/)
 
 ## Getting Started
 
