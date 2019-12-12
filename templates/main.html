@@ -17,10 +17,12 @@
         <div id="sortingContainer" class="p5-container"></div>
         <script src="{{ url_for('static',filename='script/sorting/p5.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static',filename='script/sorting/sorting-sketch.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='script/sorting/sorting.js') }}"></script>
     {% elif page == 'pathfinding' %}
         <div id="pathfinderContainer" class="p5-container" style="width: 800px; height: 800px;"></div>
         <script src="{{ url_for('static',filename='script/pathfinder/p5.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static',filename='script/pathfinder/pathfinder-sketch.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='script/pathfinder/grid.js') }}"></script>
     {% endif %}
 {% endblock %}
     
