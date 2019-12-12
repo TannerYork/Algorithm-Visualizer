@@ -70,6 +70,18 @@ a {
     border: none;
 }
 
+.nav-button-active {
+    background-color: #69C7D3;
+    color: #FFFFFF;
+    border: none;
+}
+
+.nav-button-active:hover {
+    border: 1px solid #707070 !important;
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
 .nav-button * {
     color: inherit;
 }
