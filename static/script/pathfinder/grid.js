@@ -1,40 +1,76 @@
 class Cell {
-    constructor(x, y, width, height) {
-        this.isActive = false; 
+    constructor(canvasCord, gridCord, size) {
+        this.canvasCord = canvasCord; // (x, y)
+        this.gridCord = gridCord; // (row, column)
+        this.size = size; // (width, height)
+        this.neighbors = [];
+        this.previous = null;
+
+        // A-star values
+        this.fScore = 0;
+        this.gScore = 0;
+        this.h = 0; // Steps from algorithm starting point
+
+        // Cell color
+        this.isActive = false;
         this.isBest = false; // Indicates if the cell is part of the best path
         this.isStart = false;
         this.isEnd = false;
-        this.isWall = false; 
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.isWall = false;
     }
 
-    draw() {
-        if (this.isStart) {
-            fill(83, 144, 152);
-            rect(this.x, this.y, this.width, this.height);
-        } else if (this.isEnd) {
-            fill(255, 136, 136);
-            rect(this.x, this.y, this.width, this.height);
-        } else if (this.isWall) {
-            fill(113);
-            rect(this.x, this.y, this.width, this.height);
-        } else if (this.isBest) {
-            fill(105, 199, 211);
-            rect(this.x, this.y, this.width, this.height);
-        } else if (this.isActive) {
-            fill(105, 299, 187);
-            rect(this.x, this.y, this.width, this.height);
-        } else {
-            fill(255);
-            rect(this.x, this.y, this.width, this.height);
+    addNeighbors(grid) {
+        const { row, column } = this.gridCord;
+        if (row < grid.numColums - 1) {
+            this.neighbors.push(grid.grid[row + 1][column]);
+        }
+        if (row > 0) {
+            this.neighbors.push(grid.grid[row - 1][column]);
+        }
+        if (column < grid.numRows - 1) {
+            this.neighbors.push(grid.grid[row][column + 1]);
+        }
+        if (column > 0) {
+            this.neighbors.push(grid.grid[row][column - 1]);
+        }
+        if (row > 0 && column > 0) {
+            this.neighbors.push(grid.grid[row - 1][column - 1]);
+        }
+        if (row < grid.numColums - 1 && column > 0) {
+            this.neighbors.push(grid.grid[row + 1][column - 1]);
+        }
+        if (row > 0 && column < grid.numRows - 1) {
+            this.neighbors.push(grid.grid[row - 1][column + 1]);
+        }
+        if (row < grid.numColums - 1 && column < grid.numRows - 1) {
+            this.neighbors.push(grid.grid[row + 1][column + 1]);
         }
     }
 
+    draw() {
+        const { x, y } = this.canvasCord;
+        const { width, height } = this.size;
+
+        if (this.isStart) {
+            fill(83, 144, 152);
+        } else if (this.isEnd) {
+            fill(255, 136, 136);
+        } else if (this.isWall) {
+            fill(113);
+        } else if (this.isBest) {
+            fill(105, 199, 211);
+        } else if (this.isActive) {
+            fill(105, 299, 187);
+        } else {
+            fill(255);
+        }
+        rect(x, y, width, height);
+        fill(0);
+        // text(this.fScore, x + width / 2.5, y + height / 1.5);
+    }
+
     deactivate() {
-        this.isActive = false; 
+        this.isActive = false;
         this.isBest = false;
         this.isWall = false;
         this.isStart = false;
@@ -51,93 +87,139 @@ class Grid {
          *  Returns:
          *      Grid (object): An object capable of rendering an shuffled array on the canvas
          */
-        this.cellWidth = winWidth/size;
-        this.cellHeight = winHeight/size;
+        this.cellWidth = winWidth / size;
+        this.cellHeight = winHeight / size;
         this.numColums = size;
         this.numRows = size;
         this.grid = [];
+        this.start = null;
+        this.end = null;
         this.x = 0;
         this.y = 0;
 
-        for (var r=0; r<this.numRows; r++) {
+        for (var r = 0; r < this.numRows; r++) {
             this.grid.push([]);
-        }
-
-        for (var r=0; r<this.numRows; r++) {
-            for (var c=0; c<this.numColums; c++) {
-                this.grid[r].push(new Cell(this.x, this.y, this.cellWidth, this.cellHeight));
+            for (var c = 0; c < this.numColums; c++) {
+                this.grid[r].push(
+                    new Cell(
+                        { x: this.x, y: this.y },
+                        { row: r, column: c },
+                        { width: this.cellWidth, height: this.cellHeight }
+                    )
+                );
                 this.x += this.cellWidth;
             }
             this.x = 0;
             this.y += this.cellHeight;
         }
+
+        // Add cell neighbors
+        for (var r = 0; r < this.numRows; r++) {
+            for (var c = 0; c < this.numColums; c++) {
+                this.grid[r][c].addNeighbors(this);
+            }
+        }
     }
 
     draw() {
-        for (var r=0; r<this.numRows; r++) {
-            for (var c=0; c<this.numRows; c++) {
+        for (var r = 0; r < this.numRows; r++) {
+            for (var c = 0; c < this.numRows; c++) {
                 this.grid[r][c].draw();
             }
         }
     }
 
-    activateCellWall(x, y) {
-        for (var r=0; r<this.numRows; r++) {
-            for (var c=0; c<this.numRows; c++) {
-                var cell = this.grid[r][c]
-                if (x < cell.x+cell.height && x > cell.x &&
-                     y <cell.y+cell.width && y > cell.y) {
-                    cell.deactivate()
-                    cell.isWall = true
+    activateCellWall(i, j) {
+        for (let r = 0; r < this.numRows; r++) {
+            for (let c = 0; c < this.numRows; c++) {
+                let cell = this.grid[r][c];
+                const { x, y } = cell.canvasCord;
+                const { width, height } = cell.size;
+
+                if (cell.isStart) {
+                    cell.deactivate();
+                }
+                if (i < x + width && i > x && j < y + height && j > y) {
+                    cell.deactivate();
+                    cell.isWall = true;
+                    if (cell == this.start) this.start = null;
+                    if (cell == this.end) this.end = null;
                 }
             }
         }
     }
 
-    activateCellStart(x, y) {
-        for (var r=0; r<this.numRows; r++) {
-            for (var c=0; c<this.numRows; c++) {
-                var cell = this.grid[r][c]
-                if (cell.isStart) { cell.deactivate() }
-                if (x < cell.x+cell.height && x > cell.x &&
-                     y <cell.y+cell.width && y > cell.y) {
-                    cell.deactivate()
-                    cell.isStart = true
+    activateCellStart(i, j) {
+        for (let r = 0; r < this.numRows; r++) {
+            for (let c = 0; c < this.numRows; c++) {
+                let cell = this.grid[r][c];
+                const { x, y } = cell.canvasCord;
+                const { width, height } = cell.size;
+
+                if (cell.isStart) {
+                    cell.deactivate();
+                }
+                if (i < x + width && i > x && j < y + height && j > y) {
+                    cell.deactivate();
+                    cell.isStart = true;
+                    this.start = cell;
                 }
             }
         }
     }
 
-    activateCellEnd(x, y) {
-        for (var r=0; r<this.numRows; r++) {
-            for (var c=0; c<this.numRows; c++) {
-                var cell = this.grid[r][c]
-                if (cell.isEnd) { cell.deactivate() }
-                if (x < cell.x+cell.height && x > cell.x &&
-                     y <cell.y+cell.width && y > cell.y) {
-                    cell.deactivate()
-                    cell.isEnd = true
+    activateCellEnd(i, j) {
+        for (let r = 0; r < this.numRows; r++) {
+            for (let c = 0; c < this.numRows; c++) {
+                let cell = this.grid[r][c];
+                const { x, y } = cell.canvasCord;
+                const { width, height } = cell.size;
+
+                if (cell.isEnd) {
+                    cell.deactivate();
+                }
+                if (i < x + width && i > x && j < y + height && j > y) {
+                    cell.deactivate();
+                    cell.isEnd = true;
+                    this.end = cell;
                 }
             }
         }
     }
 
-    clearCell(x, y) {
-        for (var r=0; r<this.numRows; r++) {
-            for (var c=0; c<this.numRows; c++) {
-                var cell = this.grid[r][c]
-                if (x < cell.x+cell.height && x > cell.x &&
-                     y <cell.y+cell.width && y > cell.y) {
-                    cell.deactivate()
+    reset() {
+        this.start = null;
+        this.end = null;
+        this.clearCells();
+    }
+
+    clearCell(i, j) {
+        for (let r = 0; r < this.numRows; r++) {
+            for (let c = 0; c < this.numRows; c++) {
+                let cell = this.grid[r][c];
+                const { x, y } = cell.canvasCord;
+                const { width, height } = cell.size;
+
+                if (i < x + width && i > x && j < y + height && j > y) {
+                    cell.deactivate();
                 }
             }
         }
     }
 
     clearCells() {
-        for (var r=0; r<this.numRows; r++) {
-            for (var c=0; c<this.numRows; c++) {
-                this.grid[r][c].deactivate()
+        loop();
+        for (let r = 0; r < this.numRows; r++) {
+            for (let c = 0; c < this.numRows; c++) {
+                this.grid[r][c].deactivate();
+            }
+        }
+    }
+
+    clearBestPath() {
+        for (let r = 0; r < this.numRows; r++) {
+            for (let c = 0; c < this.numRows; c++) {
+                this.grid[r][c].isBest = false;
             }
         }
     }

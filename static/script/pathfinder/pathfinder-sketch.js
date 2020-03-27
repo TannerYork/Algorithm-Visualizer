@@ -8,44 +8,50 @@ const pathOptions = document.getElementById('pathfinder-options');
 
 function setup() {
     grid = new Grid(30);
+    pathfinder = new Pathfinder(grid);
     canvas = createCanvas(winWidth, winHeight);
-    hasStarted = false
+    hasStarted = false;
     canvas.parent('pathfinderContainer');
 
-    pathForm.addEventListener('submit', (event) => {
+    pathForm.addEventListener('submit', event => {
         event.preventDefault();
-        pathStartButton.classList.toggle('nav-button-active')
+        pathStartButton.classList.toggle('nav-button-active');
         if (hasStarted) {
-            pathStartButton.innerText = 'Start'
+            pathStartButton.innerText = 'Start';
             hasStarted = false;
         } else {
-            pathStartButton.innerText = 'Stop'
+            pathStartButton.innerText = 'Stop';
             hasStarted = true;
         }
     });
 
-    pathClearButton.addEventListener('click', (event) => {
-        event.preventDefault()
-        grid.clearCells()
-    })
-
+    pathClearButton.addEventListener('click', event => {
+        event.preventDefault();
+        grid.reset();
+        pathfinder.reset();
+    });
 }
 
 function draw() {
     background(255);
     grid.draw();
+
+    if (hasStarted && grid.start && grid.end) {
+        pathfinder.aStar();
+    }
 }
 
 function mouseClicked() {
     if (mouseX < width && mouseX > 0 && mouseY < height && mouseY > 0 && hasStarted == false) {
         if (pathOptions.value == 'start') {
             grid.activateCellStart(mouseX, mouseY);
+            pathfinder.addStart(mouseX, mouseY);
         } else if (pathOptions.value == 'end') {
             grid.activateCellEnd(mouseX, mouseY);
         } else if (pathOptions.value == 'wall') {
             grid.activateCellWall(mouseX, mouseY);
         } else if (pathOptions.value == 'clear') {
-            grid.clearCell(mouseX, mouseY)
+            grid.clearCell(mouseX, mouseY);
         }
     }
 }
@@ -58,4 +64,4 @@ function mouseDragged() {
             grid.clearCell(mouseX, mouseY);
         }
     }
-  }
+}
