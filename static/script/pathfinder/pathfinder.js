@@ -11,9 +11,9 @@ const removeFromArray = (array, elt) => {
 };
 
 heuristic = (a, b) => {
-    // var distance = dist(a.gridCord.row, a.gridCord.column, b.gridCord.row, b.gridCord.column);
-    var distance =
-        abs(a.gridCord.row - b.gridCord.row) + abs(a.gridCord.column - b.gridCord.column);
+    var distance = dist(a.gridCord.row, a.gridCord.column, b.gridCord.row, b.gridCord.column);
+    // var distance =
+    //     abs(a.gridCord.row - b.gridCord.row) + abs(a.gridCord.column - b.gridCord.column);
     return distance;
 };
 
@@ -73,17 +73,23 @@ class Pathfinder {
                 if (!closedSet.includes(neighbor) && !neighbor.isWall) {
                     var tentative_gScore = current.gScore + 1;
 
+                    var newPath = false;
                     if (openSet.includes(neighbor)) {
                         if (tentative_gScore < neighbor.gScore) {
                             neighbor.gScore = tentative_gScore;
+                            newPath = true;
                         }
                     } else {
+                        newPath = true;
                         neighbor.gScore = tentative_gScore;
+                        neighbor.isActive = true;
                         openSet.push(neighbor);
                     }
-                    neighbor.h = heuristic(neighbor, grid.end);
-                    neighbor.fScore = neighbor.gScore + neighbor.h;
-                    neighbor.previous = current;
+                    if (newPath) {
+                        neighbor.h = heuristic(neighbor, grid.end);
+                        neighbor.fScore = neighbor.gScore + neighbor.h;
+                        neighbor.previous = current;
+                    }
                 }
             }
 

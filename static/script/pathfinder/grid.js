@@ -17,6 +17,10 @@ class Cell {
         this.isStart = false;
         this.isEnd = false;
         this.isWall = false;
+
+        if (random(1) < 0.2) {
+            this.isWall = true;
+        }
     }
 
     addNeighbors(grid) {
@@ -66,7 +70,7 @@ class Cell {
         }
         rect(x, y, width, height);
         fill(0);
-        // text(this.fScore, x + width / 2.5, y + height / 1.5);
+        text(this.count, x + width / 2.5, y + height / 1.5);
     }
 
     deactivate() {
@@ -96,7 +100,7 @@ class Grid {
         this.end = null;
         this.x = 0;
         this.y = 0;
-
+        this.count = 0;
         for (var r = 0; r < this.numRows; r++) {
             this.grid.push([]);
             for (var c = 0; c < this.numColums; c++) {
@@ -107,6 +111,7 @@ class Grid {
                         { width: this.cellWidth, height: this.cellHeight }
                     )
                 );
+                this.count += 1;
                 this.x += this.cellWidth;
             }
             this.x = 0;
@@ -136,9 +141,6 @@ class Grid {
                 const { x, y } = cell.canvasCord;
                 const { width, height } = cell.size;
 
-                if (cell.isStart) {
-                    cell.deactivate();
-                }
                 if (i < x + width && i > x && j < y + height && j > y) {
                     cell.deactivate();
                     cell.isWall = true;
