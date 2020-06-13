@@ -5,11 +5,14 @@ Use the app [here](https://visual-algorithms.herokuapp.com/)
 
 ## Getting Started
 
-* Clone repository on local system <br>
-* Create a new virtual enviroment <br>
-* Run ```pip3 install -r requirements.txt``` <br>
-* Add local host to allowed host <br>
-* Run ```python3 manage.py runserver``` <br>
+### Using Docker
+* Build the image: ```bash docker build -t flask-image . ```
+* Build the container: ```bash docker run -p 5000:5000 --rm --name flask-container flask-image ```
+
+### Not Using Docker
+* Create a new virtual enviroment and run: ```bash pip3 install -r requirements.txt``` <br>
+* Add local host to allowed host and then run: ```python3 manage.py runserver``` <br>
+
 See deployment for notes on how to deploy the project on a live system.
 
 ## Deployment
