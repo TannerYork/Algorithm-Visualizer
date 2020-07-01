@@ -6,11 +6,11 @@ Use the app [here](https://visual-algorithms.herokuapp.com/)
 ## Getting Started
 
 ### Using Docker
-* Build the image: ```bash docker build -t visual-algo-image . ```
-* Build the container: ```bash docker run -p 5000:5000 --rm --name visual-algo-container flask-image ```
+* Build the image: ```docker build -t visual-algo-image . ```
+* Build the container: ```docker run -p 5000:5000 --rm --name visual-algo-container flask-image ```
 
 ### Not Using Docker
-* Create a new virtual enviroment and run: ```bash pip3 install -r requirements.txt``` <br>
+* Create a new virtual enviroment and run: ```pip3 install -r requirements.txt``` <br>
 * Add local host to allowed host and then run: ```python3 manage.py runserver``` <br>
 
 See deployment for notes on how to deploy the project on a live system.
