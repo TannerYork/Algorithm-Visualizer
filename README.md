@@ -1,3 +1,5 @@
+![Web](https://img.shields.io/website?down_color=red&down_message=offline&up_color=light%20green&up_message=online&url=https%3A%2F%2Fvisual-algorithms.herokuapp.com%2F)
+
 # Visual Algorithms
 
 A web app for informing users about how algorythms work through an interactive experience. <br>
